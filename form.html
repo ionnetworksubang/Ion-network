@@ -1,118 +1,185 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jhon Bio Links</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Form Pendaftaran – ION NETWORK</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --muted: #94a3b8;
+      --text: #e5e7eb;
+      --accent: #22c55e;
+      --accent-2: #16a34a;
+      --ring: rgba(34, 197, 94, 0.6);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 24px; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: linear-gradient(180deg, #0b1220, #0f172a 40%, #0b1220);
+      color: var(--text);
+    }
+    .container {
+      max-width: 680px; margin: 0 auto;
+    }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px; padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      backdrop-filter: blur(6px);
+    }
+    h1 { font-size: 1.5rem; margin: 0 0 16px; }
+    p.desc { margin-top: 0; color: var(--muted); font-size: 0.95rem; }
+    form { display: grid; gap: 14px; }
+    label { display: block; font-weight: 600; margin-bottom: 6px; }
+    .field { display: grid; gap: 6px; }
+    input, select, button, textarea {
+      width: 100%; padding: 12px 14px; border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.14); background: #0b1220; color: var(--text);
+      outline: none; font-size: 14px;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--ring); }
+    .row { display: grid; grid-template-columns: 1fr; gap: 12px; }
+    @media (min-width: 640px) { .row.two { grid-template-columns: 1fr 1fr; } }
+    small.hint { color: var(--muted); font-size: 12px; }
+    button[type="submit"], .btn-secondary {
+      cursor: pointer; border: none; font-weight: 700; letter-spacing: .2px;
+    }
+    .actions { display: flex; gap: 10px; margin-top: 8px; }
+    .btn-primary { background: var(--accent); color: #08210f; }
+    .btn-primary:hover { background: var(--accent-2); }
+    .btn-secondary { background: transparent; color: var(--text); border: 1px dashed rgba(255,255,255,0.3); }
+    .footer { margin-top: 14px; color: var(--muted); font-size: 12px; text-align:center; }
+    .success { display:none; margin-top: 10px; background:#052e16; border:1px solid #14532d; color:#bbf7d0; padding:10px 12px; border-radius:12px; font-size: 13px; }
+  </style>
 </head>
-
 <body>
+  <div class="container">
+    <div class="card">
+      <h1>Form Pendaftaran ION NETWORK</h1>
+      <p class="desc">Mohon isi data yang tersedia di bawah dengan benar.</p>
 
-    <!-- Background Animation Text -->
-    <span class="bg-text-animation">ION ION</span>
+      <form id="waForm">
+        <div class="field">
+          <label for="nama">Nama Lengkap</label>
+          <input id="nama" name="nama" type="text" placeholder="Muhammad Ramdan" required />
+        </div>
 
-    <!-- Profile -->
-    <img class="my-photo" src="./img/logo-bg.jpg" alt="AR Logo">
-    <h1>JHON ION</h1>
-    <p>Wifi Murah Dan terpercaya Subang</p>
+        <div class="row two">
+          <div class="field">
+            <label for="ktp">No KTP</label>
+            <input id="ktp" name="ktp" inputmode="numeric" pattern="\d{16}" maxlength="16" placeholder="16 digit" required />
+            <small class="hint">Harus 16 digit angka.</small>
+          </div>
+          <div class="field">
+            <label for="hp">No HP (WhatsApp)</label>
+            <input id="hp" name="hp" type="tel" inputmode="tel" placeholder="Mis. 081234567890" required />
+            <small class="hint">Contoh: 081234567890</small>
+          </div>
+        </div>
 
-    <!-- Sosial Media -->
-    <div class="sosmed">
-        <a href="https://www.tiktok.com/@ionnetwork.id?_t=ZS-8z8z2Wb8sTQ&_r=1" target="_blank">
-            <i class="ph ph-tiktok-logo"></i>
-        </a>
-        <a href="https://www.instagram.com/ionnetwork.id?igsh=Y2c0YnhscWttcWsx" target="_blank">
-            <i class="ph ph-instagram-logo"></i>
-        </a>
-        <a href="https://youtube.com/@ion-network?si=JXQaGMmUK_cq-1R3" target="_blank">
-            <i class="ph ph-youtube-logo"></i>
-        </a>
+        <div class="row two">
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="nama@email.com" required />
+          </div>
+          <div class="field">
+            <label for="tanggal">Tanggal Request</label>
+            <input id="tanggal" name="tanggal" type="date" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="paket">Paket yang Dipilih</label>
+          <select id="paket" name="paket" required>
+            <option value="" disabled selected>Pilih paket…</option>
+            <option>10 Mbps – Rp 144.900</option>
+            <option>25 Mbps – Rp 188.589</option>
+            <option>45 Mbps – Rp 229.659</option>
+            <option>75 Mbps – Rp 299.000</option>
+            <option>100 Mbps – Rp 399.000</option>
+            <option>150 Mbps – Rp 499.000</option>
+            <option>200 Mbps – Rp 699.000</option>
+            <option>Lainnya (tulis di catatan)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="lokasi">Link ShareLok</label>
+          <input id="lokasi" name="lokasi" type="url" placeholder="Tempelkan link lokasi Google Maps" />
+        </div>
+
+        <div class="field">
+          <label for="foto">Foto Rumah</label>
+          <input id="foto" name="foto" type="file" accept="image/*" />
+          <small class="hint">Unggah foto rumah untuk mempermudah teknisi menemukan lokasi.</small>
+        </div>
+
+        <div class="field">
+          <label for="catatan">Catatan (opsional)</label>
+          <textarea id="catatan" name="catatan" rows="3" placeholder="Alamat pemasangan, jam kunjungan, dll"></textarea>
+        </div>
+
+        <div class="actions">
+          <button class="btn-primary" type="submit">Kirim ke WhatsApp</button>
+          <button class="btn-secondary" type="button" id="resetBtn">Reset</button>
+        </div>
+        <div class="success" id="successBox">Membuka WhatsApp… jika tidak terbuka, pastikan aplikasi WhatsApp terpasang atau Anda login di WhatsApp Web.</div>
+      </form>
     </div>
+  </div>
 
-    <!-- Link List -->
-    <ul class="links">
-        
-        <!-- Pendaftaran baru-->
-         <li>
-            <a href="./FORM/index.html" target="_blank" class="link-card">
-                <div class="link-icon">
-                    <i class="ph-fill ph-chat-circle-dots"></i>
-                </div>
-                <p class="link-text">Daftar Baru Wifi ION/Jujung</p>
-                <div class="link-action">
-                    <i class="ph-fill ph-copy"></i>
-                </div>
-            </a>
-        </li>
-        
-        <!-- costumer service-->
-        <li>
-            <a href="https://livechat.ionbroadband.id" target="_blank" class="link-card">
-                <div class="link-icon">
-                    <i class="ph-fill ph-chat-circle-dots"></i>
-                </div>
-                <p class="link-text">Costumer service</p>
-                <div class="link-action">
-                    <i class="ph-fill ph-copy"></i>
-                </div>
-            </a>
-        </li>
-        
-        <!-- sandi C-Data -->
-        
-        <li>
-            <a href="https://youtube.com/shorts/NxIE86LE7hA?si=LZXSNYK49V7cbdS-" target="_blank" class="link-card">
-                <div class="link-icon">
-                    <i class="ph-fill ph-chat-circle-dots"></i>
-                </div>
-                <p class="link-text">Cara merubah sandi modem C-Data</p>
-                <div class="link-action">
-                    <i class="ph-fill ph-copy"></i>
-                </div>
-            </a>
-        </li>
-        
-        <!-- Sandi gpon -->
-         <li>
-            <a href="https://youtu.be/KPO0izQuVHA?si=Ifjyxl85qUT6F9uT" target="_blank" class="link-card">
-                <div class="link-icon">
-                    <i class="ph-fill ph-chat-circle-dots"></i>
-                </div>
-                <p class="link-text">Cara merubah sandi modem Gpon</p>
-                <div class="link-action">
-                    <i class="ph-fill ph-copy"></i>
-                </div>
-            </a>
-        </li>
-        
-        <!-- Mode pembayaran -->
-         <li>
-            <a href="https://youtube.com/shorts/99PBWefaSGw?si=YD5uGVfEKXxcT1UR" target="_blank" class="link-card">
-                <div class="link-icon">
-                    <i class="ph-fill ph-chat-circle-dots"></i>
-                </div>
-                <p class="link-text">Tutorial Pembayaran </p>
-                <div class="link-action">
-                    <i class="ph-fill ph-copy"></i>
-                </div>
-            </a>
-        </li>
+  <script>
+    const targetNumber = "6281234567890"; // TODO: ubah ke nomor Anda
 
-    </ul>
+    const form = document.getElementById('waForm');
+    const successBox = document.getElementById('successBox');
 
-    <div class="copyright">
-        <img src="./img/logo-mark.png" alt="AR Logo">
-        <p>Copyright Jhon &copy; 2025</p>
-    </div>
+    (function setToday(){
+      const tgl = document.getElementById('tanggal');
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      tgl.value = `${yyyy}-${mm}-${dd}`;
+    })();
 
-    <!-- Toast Notification -->
-    <div id="toast">
-    </div>
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      form.reset();
+      successBox.style.display = 'none';
+    });
 
-    <script src="/script.js"></script>
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      const data = Object.fromEntries(new FormData(form).entries());
+      if (!/^\d{16}$/.test(data.ktp)) {
+        alert('Nomor KTP harus 16 digit angka.');
+        return;
+      }
+      const hpPemohon = String(data.hp).replace(/[^\d+]/g, '');
+      const lines = [
+        `*PENDAFTARAN BARU*`,
+        `Nama        : ${data.nama}`,
+        `No KTP      : ${data.ktp}`,
+        `No HP       : ${hpPemohon}`,
+        `Email       : ${data.email}`,
+        `Paket       : ${data.paket}`,
+        `Tanggal     : ${data.tanggal}`,
+      ];
+      if (data.lokasi) { lines.push(`ShareLok    : ${data.lokasi}`); }
+      if (data.foto && data.foto.name) { lines.push(`Foto Rumah  : ${data.foto.name} (tidak terkirim via WhatsApp, kirim manual)`); }
+      if (data.catatan && data.catatan.trim()) { lines.push(`Catatan     : ${data.catatan.trim()}`); }
+
+      const message = lines.join('\n');
+      const encoded = encodeURIComponent(message);
+      const waUrl = `https://wa.me/${6285722575567}?text=${encoded}`;
+      successBox.style.display = 'block';
+      window.open(waUrl, '_blank');
+    });
+  </script>
 </body>
-
-  </html>
+    </html>
+    
