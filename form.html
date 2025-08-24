@@ -1,185 +1,315 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Form Pendaftaran – ION NETWORK</title>
+  <meta charset="UTF-8">
+  <title>Form Pendaftaran Paket WiFi</title>
   <style>
-    :root {
-      --bg: #0f172a;
-      --card: #111827;
-      --muted: #94a3b8;
-      --text: #e5e7eb;
-      --accent: #22c55e;
-      --accent-2: #16a34a;
-      --ring: rgba(34, 197, 94, 0.6);
+    /* === DARK BIO-LINK STYLE (CSS SAJA DIUBAH) === */
+    :root{
+      --bg1:#0f172a; /* slate-900 */
+      --bg2:#1e293b; /* slate-800 */
+      --panel:#0b1220; /* deep panel */
+      --text:#e5e7eb; /* slate-200 */
+      --muted:#94a3b8; /* slate-400 */
+      --accent:#38bdf8; /* sky-400 */
+      --accent-2:#0ea5e9; /* sky-500 */
+      --ring: rgba(56,189,248,.45);
+      --ok-bg: rgba(34,197,94,.15);
+      --ok-ring:#22c55e;
+      --ok-text:#bbf7d0;
     }
-    * { box-sizing: border-box; }
+
+    @keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+    @keyframes floatGlow { 0%,100%{opacity:.12;transform:translateY(0)} 50%{opacity:.18;transform:translateY(-6px)} }
+
+    html,body{height:100%}
     body {
-      margin: 0; padding: 24px; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      background: linear-gradient(180deg, #0b1220, #0f172a 40%, #0b1220);
-      color: var(--text);
+      font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 10% 0%, #0b1220 0%, transparent 60%),
+                  radial-gradient(1200px 600px at 90% 100%, #0b1220 0%, transparent 60%),
+                  linear-gradient(135deg, var(--bg1), var(--bg2));
+      margin:0; padding:0; color:var(--text);
+      position:relative;
+      overflow-x:hidden;
     }
+
+    /* Background text ala bio-link, tanpa ubah HTML */
+    body::before{
+      content:"ION ION ION ION ION ION";
+      position:fixed; inset:auto 0 10% 0;
+      text-align:center; letter-spacing:.6rem;
+      font-weight:800; font-size:10vw;
+      color:#38bdf8; opacity:.06;
+      filter: blur(1px);
+      pointer-events:none;
+      animation: floatGlow 8s ease-in-out infinite;
+    }
+
     .container {
-      max-width: 680px; margin: 0 auto;
+      max-width: 680px;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      margin: 40px auto;
+      padding: 28px;
+      border-radius: 22px;
+      box-shadow: 0 20px 60px rgba(2,6,23,.55);
+      border: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(8px);
+      animation: fadeIn .8s ease both;
     }
-    .card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 20px; padding: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-      backdrop-filter: blur(6px);
+
+    .header { text-align:center; margin-bottom: 22px; }
+    .header h2 {
+      margin: 10px 0 4px; font-size: 1.9rem; font-weight:700; color: var(--accent);
+      text-shadow: 0 0 18px rgba(56,189,248,.45);
     }
-    h1 { font-size: 1.5rem; margin: 0 0 16px; }
-    p.desc { margin-top: 0; color: var(--muted); font-size: 0.95rem; }
-    form { display: grid; gap: 14px; }
-    label { display: block; font-weight: 600; margin-bottom: 6px; }
-    .field { display: grid; gap: 6px; }
-    input, select, button, textarea {
-      width: 100%; padding: 12px 14px; border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.14); background: #0b1220; color: var(--text);
-      outline: none; font-size: 14px;
+    .header p { font-size:.95rem; color: var(--muted); }
+    .wifi-icon { font-size: 44px; color: var(--accent); filter: drop-shadow(0 0 8px rgba(56,189,248,.45)); }
+
+    label {
+      font-weight: 600; display:block; margin-top:16px; color:var(--text);
     }
-    input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--ring); }
-    .row { display: grid; grid-template-columns: 1fr; gap: 12px; }
-    @media (min-width: 640px) { .row.two { grid-template-columns: 1fr 1fr; } }
-    small.hint { color: var(--muted); font-size: 12px; }
-    button[type="submit"], .btn-secondary {
-      cursor: pointer; border: none; font-weight: 700; letter-spacing: .2px;
+
+    input, select, textarea {
+      width: 100%; padding: 12px 14px; margin-top: 6px;
+      border-radius: 14px; border: 1px solid rgba(255,255,255,.12);
+      background: #0f172a; color: var(--text); font-size: 14px;
+      transition: .25s ease; box-sizing: border-box; outline: none;
     }
-    .actions { display: flex; gap: 10px; margin-top: 8px; }
-    .btn-primary { background: var(--accent); color: #08210f; }
-    .btn-primary:hover { background: var(--accent-2); }
-    .btn-secondary { background: transparent; color: var(--text); border: 1px dashed rgba(255,255,255,0.3); }
-    .footer { margin-top: 14px; color: var(--muted); font-size: 12px; text-align:center; }
-    .success { display:none; margin-top: 10px; background:#052e16; border:1px solid #14532d; color:#bbf7d0; padding:10px 12px; border-radius:12px; font-size: 13px; }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 5px var(--ring), 0 0 14px rgba(56,189,248,.35);
+      background: #0b1220;
+    }
+
+    select { appearance:none; background-image:
+      linear-gradient(45deg, transparent 50%, var(--accent) 50%),
+      linear-gradient(135deg, var(--accent) 50%, transparent 50%),
+      linear-gradient(to right, rgba(255,255,255,.12), rgba(255,255,255,0));
+      background-position:
+      calc(100% - 18px) calc(50% - 3px),
+      calc(100% - 12px) calc(50% - 3px),
+      calc(100% - 42px) 50%;
+      background-size:6px 6px, 6px 6px, 1px 60%;
+      background-repeat:no-repeat;
+    }
+
+    textarea { resize: vertical; min-height: 90px; }
+
+    small { color: var(--muted); font-size: 12px; display:block; margin-top:6px; }
+
+    .btn-group { margin-top: 26px; text-align:center; display:flex; gap:10px; flex-wrap:wrap; }
+    button {
+      padding: 12px 18px; border:none; border-radius: 14px; cursor: pointer;
+      font-weight: 700; font-size: 15px; transition: .25s ease;
+    }
+    button[type="submit"]{
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+      color: #041018;
+      box-shadow: 0 10px 20px rgba(56,189,248,.35), inset 0 -2px 0 rgba(0,0,0,.25);
+    }
+    button[type="submit"]:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(56,189,248,.45), 0 0 20px rgba(56,189,248,.35);
+      filter: saturate(1.1);
+    }
+    #resetBtn{
+      background: #0b1220; color: var(--text);
+      border:1px dashed rgba(148,163,184,.45);
+    }
+    #resetBtn:hover{ background:#0f172a; border-color: var(--accent); box-shadow: 0 0 10px var(--ring); }
+
+    .success{
+      display:none; margin-top: 18px; padding: 14px 16px;
+      background: var(--ok-bg); border-left: 5px solid var(--ok-ring);
+      color: var(--ok-text); border-radius: 14px; font-size: .95em; text-align:center;
+      box-shadow: 0 0 10px rgba(34,197,94,.25);
+    }
+
+    /* Mobile tweak */
+    @media (max-width: 480px){
+      .container{ margin: 18px; padding: 20px; border-radius: 18px; }
+      .header h2{ font-size:1.6rem }
+      .wifi-icon{ font-size:38px }
+      button{ width:100% }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="card">
-      <h1>Form Pendaftaran ION NETWORK</h1>
-      <p class="desc">Mohon isi data yang tersedia di bawah dengan benar.</p>
+    <div class="header">
+      <div class="wifi-icon">📶</div>
+      <h2>ION NETWORK</h2>
+      <p>Isi formulir di bawah untuk mendaftar paket internet rumah Anda</p>
+    </div>
 
-      <form id="waForm">
-        <div class="field">
-          <label for="nama">Nama Lengkap</label>
-          <input id="nama" name="nama" type="text" placeholder="Muhammad Ramdan" required />
-        </div>
+    <!-- HTML ASLI DIPERTAHANKAN -->
+    <form id="waForm">
+      <label for="nama">Nama Lengkap</label>
+      <input type="text" id="nama" name="nama" placeholder="Sixxxxx Axxxx" required>
 
-        <div class="row two">
-          <div class="field">
-            <label for="ktp">No KTP</label>
-            <input id="ktp" name="ktp" inputmode="numeric" pattern="\d{16}" maxlength="16" placeholder="16 digit" required />
-            <small class="hint">Harus 16 digit angka.</small>
-          </div>
-          <div class="field">
-            <label for="hp">No HP (WhatsApp)</label>
-            <input id="hp" name="hp" type="tel" inputmode="tel" placeholder="Mis. 081234567890" required />
-            <small class="hint">Contoh: 081234567890</small>
-          </div>
-        </div>
+      <label for="jenisId">Jenis Identitas</label>
+      <select id="jenisId" name="jenisId" required>
+        <option value="">-- Pilih --</option>
+        <option value="KTP">KTP</option>
+        <option value="SIM">SIM</option>
+        <option value="Paspor">Paspor</option>
+        <option value="NPWP">NPWP</option>
+      </select>
 
-        <div class="row two">
-          <div class="field">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" placeholder="nama@email.com" required />
-          </div>
-          <div class="field">
-            <label for="tanggal">Tanggal Request</label>
-            <input id="tanggal" name="tanggal" type="date" required />
-          </div>
-        </div>
+      <label for="noIdentitas">Nomor Identitas</label>
+      <input type="text" id="noIdentitas" name="noIdentitas" placeholder="Isi nomor sesuai identitas" required>
+      <small id="hintIdentitas">Isi sesuai pilihan di atas.</small>
 
-        <div class="field">
-          <label for="paket">Paket yang Dipilih</label>
-          <select id="paket" name="paket" required>
-            <option value="" disabled selected>Pilih paket…</option>
-            <option>10 Mbps – Rp 144.900</option>
-            <option>25 Mbps – Rp 188.589</option>
-            <option>45 Mbps – Rp 229.659</option>
-            <option>75 Mbps – Rp 299.000</option>
-            <option>100 Mbps – Rp 399.000</option>
-            <option>150 Mbps – Rp 499.000</option>
-            <option>200 Mbps – Rp 699.000</option>
-            <option>Lainnya (tulis di catatan)</option>
-          </select>
-        </div>
+      <label for="hp">No WhatsApp</label>
+      <input type="tel" id="hp" name="hp" placeholder="08xxxxxxxxxx" pattern="08[0-9]{8,11}" required>
+      <small>Nomor harus diawali 08 dan panjang 10–13 digit.</small>
 
-        <div class="field">
-          <label for="lokasi">Link ShareLok</label>
-          <input id="lokasi" name="lokasi" type="url" placeholder="Tempelkan link lokasi Google Maps" />
-        </div>
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="nama@email.com" required>
 
-        <div class="field">
-          <label for="foto">Foto Rumah</label>
-          <input id="foto" name="foto" type="file" accept="image/*" />
-          <small class="hint">Unggah foto rumah untuk mempermudah teknisi menemukan lokasi.</small>
-        </div>
+      <label for="paket">Paket WiFi</label>
+      <select id="paket" name="paket" required>
+        <option value="">-- Pilih Paket --</option>
+        <option value="10 Mbps - Rp 138.750">10 Mbps – Rp 138.750</option>
+        <option value="25 Mbps - Rp 169.900">25 Mbps – Rp 169.900</option>
+        <option value="45 Mbps - Rp 206.900">45 Mbps – Rp 206.900</option>
+        <option value="60 Mbps - Rp 236.900">60 Mbps – Rp 236.900</option>
+        <option value="100 Mbps - Rp 319.900">100 Mbps – Rp 319.900</option>
+        <option value="300 Mbps - Rp 469.900">300 Mbps – Rp 469.900</option>
+        <option value="500 Mbps - Rp 609.900">500 Mbps – Rp 609.900</option>
+      </select>
 
-        <div class="field">
-          <label for="catatan">Catatan (opsional)</label>
-          <textarea id="catatan" name="catatan" rows="3" placeholder="Alamat pemasangan, jam kunjungan, dll"></textarea>
-        </div>
+      <label for="tanggal">Tanggal Request</label>
+      <input type="date" id="tanggal" name="tanggal" required>
 
-        <div class="actions">
-          <button class="btn-primary" type="submit">Kirim ke WhatsApp</button>
-          <button class="btn-secondary" type="button" id="resetBtn">Reset</button>
-        </div>
-        <div class="success" id="successBox">Membuka WhatsApp… jika tidak terbuka, pastikan aplikasi WhatsApp terpasang atau Anda login di WhatsApp Web.</div>
-      </form>
+      <label for="foto">Foto Rumah (opsional)</label>
+      <input type="file" id="foto" name="foto" accept="image/*">
+
+      <label for="catatan">Alamat Lengkap / Sharelok</label>
+      <textarea id="catatan" name="catatan" rows="3"></textarea>
+
+      <div class="btn-group">
+        <button type="submit">📲 Daftar via WhatsApp</button>
+        <button type="button" id="resetBtn">🔄 Reset</button>
+      </div>
+    </form>
+
+    <div id="successBox" class="success">
+      ✅ Form berhasil diproses! WhatsApp akan terbuka untuk mengirim data.
     </div>
   </div>
 
+  <!-- JAVASCRIPT ASLI DIPERTAHANKAN (TIDAK DIUBAH) -->
   <script>
-    const targetNumber = "6281234567890"; // TODO: ubah ke nomor Anda
+  const targetNumber = "6285722575567"; // ganti ke nomor WA Anda
+  const form = document.getElementById('waForm');
+  const successBox = document.getElementById('successBox');
+  const jenisId = document.getElementById('jenisId');
+  const noIdentitas = document.getElementById('noIdentitas');
+  const hintIdentitas = document.getElementById('hintIdentitas');
 
-    const form = document.getElementById('waForm');
-    const successBox = document.getElementById('successBox');
+  // default tanggal hari ini
+  (function setToday(){
+    const tgl = document.getElementById('tanggal');
+    const now = new Date();
+    tgl.value = now.toISOString().split('T')[0];
+  })();
 
-    (function setToday(){
-      const tgl = document.getElementById('tanggal');
-      const now = new Date();
-      const yyyy = now.getFullYear();
-      const mm = String(now.getMonth() + 1).padStart(2, '0');
-      const dd = String(now.getDate()).padStart(2, '0');
-      tgl.value = `${yyyy}-${mm}-${dd}`;
-    })();
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    form.reset();
+    successBox.style.display = 'none';
+    noIdentitas.placeholder = "Isi nomor sesuai identitas";
+    hintIdentitas.textContent = "Isi sesuai pilihan di atas.";
+  });
 
-    document.getElementById('resetBtn').addEventListener('click', () => {
-      form.reset();
-      successBox.style.display = 'none';
-    });
+  // Ubah input sesuai jenis identitas + placeholder
+  jenisId.addEventListener('change', () => {
+    noIdentitas.value = "";
+    switch(jenisId.value){
+      case "KTP":
+        noIdentitas.type = "tel";
+        noIdentitas.inputMode = "numeric";
+        noIdentitas.pattern = "\\d{16}";
+        noIdentitas.placeholder = "Contoh: 3275010201010001";
+        hintIdentitas.textContent = "Nomor KTP harus 16 digit angka.";
+        break;
+      case "SIM":
+        noIdentitas.type = "tel";
+        noIdentitas.inputMode = "numeric";
+        noIdentitas.pattern = "\\d{12}";
+        noIdentitas.placeholder = "Contoh: 123456789012";
+        hintIdentitas.textContent = "Nomor SIM biasanya 12 digit angka.";
+        break;
+      case "Paspor":
+        noIdentitas.type = "text";
+        noIdentitas.inputMode = "text";
+        noIdentitas.pattern = "[A-Z]{1}[0-9]{7}";
+        noIdentitas.placeholder = "Contoh: A1234567";
+        hintIdentitas.textContent = "Nomor Paspor: 1 huruf kapital + 7 angka.";
+        break;
+      case "NPWP":
+        noIdentitas.type = "tel";
+        noIdentitas.inputMode = "numeric";
+        noIdentitas.pattern = "\\d{15}";
+        noIdentitas.placeholder = "Contoh: 123456789012345";
+        hintIdentitas.textContent = "Nomor NPWP harus 15 digit angka.";
+        break;
+      default:
+        noIdentitas.type = "text";
+        noIdentitas.pattern = ".*";
+        noIdentitas.placeholder = "Isi nomor sesuai identitas";
+        hintIdentitas.textContent = "Isi sesuai pilihan di atas.";
+    }
+  });
 
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-      if (!form.reportValidity()) return;
-      const data = Object.fromEntries(new FormData(form).entries());
-      if (!/^\d{16}$/.test(data.ktp)) {
-        alert('Nomor KTP harus 16 digit angka.');
-        return;
-      }
-      const hpPemohon = String(data.hp).replace(/[^\d+]/g, '');
-      const lines = [
-        `*PENDAFTARAN BARU*`,
-        `Nama        : ${data.nama}`,
-        `No KTP      : ${data.ktp}`,
-        `No HP       : ${hpPemohon}`,
-        `Email       : ${data.email}`,
-        `Paket       : ${data.paket}`,
-        `Tanggal     : ${data.tanggal}`,
-      ];
-      if (data.lokasi) { lines.push(`ShareLok    : ${data.lokasi}`); }
-      if (data.foto && data.foto.name) { lines.push(`Foto Rumah  : ${data.foto.name} (tidak terkirim via WhatsApp, kirim manual)`); }
-      if (data.catatan && data.catatan.trim()) { lines.push(`Catatan     : ${data.catatan.trim()}`); }
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (!form.reportValidity()) return;
 
-      const message = lines.join('\n');
-      const encoded = encodeURIComponent(message);
-      const waUrl = `https://wa.me/${6285722575567}?text=${encoded}`;
-      successBox.style.display = 'block';
-      window.open(waUrl, '_blank');
-    });
+    const data = Object.fromEntries(new FormData(form).entries());
+
+    // validasi manual lebih ketat
+    if (data.jenisId === "KTP" && !/^\d{16}$/.test(data.noIdentitas)) {
+      alert("Nomor KTP harus 16 digit angka.");
+      return;
+    }
+    if (data.jenisId === "SIM" && !/^\d{12}$/.test(data.noIdentitas)) {
+      alert("Nomor SIM harus 12 digit angka.");
+      return;
+    }
+    if (data.jenisId === "Paspor" && !/^[A-Z][0-9]{7}$/.test(data.noIdentitas)) {
+      alert("Nomor Paspor harus 1 huruf kapital diikuti 7 angka (contoh: A1234567).");
+      return;
+    }
+    if (data.jenisId === "NPWP" && !/^\d{15}$/.test(data.noIdentitas)) {
+      alert("Nomor NPWP harus 15 digit angka.");
+      return;
+    }
+
+    const hpPemohon = String(data.hp).replace(/[^\d+]/g, '');
+    const lines = [
+      `*PENDAFTARAN BARU*`,
+      `Nama        : ${data.nama}`,
+      `Identitas   : ${data.jenisId} - ${data.noIdentitas}`,
+      `No HP       : ${hpPemohon}`,
+      `Email       : ${data.email}`,
+      `Paket       : ${data.paket}`,
+      `Tgl Req     : ${data.tanggal}`,
+    ];
+    if (data.foto && data.foto.name) {
+      lines.push(`Foto Rumah  : ${data.foto.name} (kirim manual di WhatsApp)`);
+    }
+    if (data.catatan && data.catatan.trim()) {
+      lines.push(`Alamat      : ${data.catatan.trim()}`);
+    }
+
+    const message = encodeURIComponent(lines.join('\n'));
+    const waUrl = `https://wa.me/${targetNumber}?text=${message}`;
+    successBox.style.display = 'block';
+    window.open(waUrl, '_blank');
+  });
   </script>
 </body>
-    </html>
-    
+      </html>
+      
