@@ -1,60 +1,26 @@
-/**
- * Untuk membuat link bisa dicopy
- */
-const actionLink = document.querySelectorAll(".link-card .link-action");
+// Toast notification
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
 
-actionLink.forEach((action) => {
-  action.addEventListener("click", (e) => {
-    e.preventDefault();
-    navigator.clipboard.writeText(action.parentElement.getAttribute("href"));
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2500);
+}
 
-    /**
-     * Untuk memunculkan toast notification
-     */
-    document.getElementById("toast").innerHTML = `
-        <div class="toast-container">
-            <p>✅ Link <strong> ${action.parentElement.innerText} </strong> berhasil disalin!</p>
-        </div>
-    `;
+// Copy link action
+document.querySelectorAll(".link-card").forEach(link => {
+  link.addEventListener("click", (e) => {
+    const action = link.querySelector(".link-action i");
+    if (action) {
+      // animasi klik
+      action.style.color = "#fff";
+      setTimeout(() => {
+        action.style.color = "#94a3b8";
+      }, 500);
 
-    /**
-     * Untuk menghilangkan toast notification
-     */
-
-    setTimeout(() => {
-      document
-        .querySelector("#toast .toast-container")
-        .classList.add("toast-gone");
-    }, 300);
-
-    setTimeout(() => {
-      document.querySelector("#toast .toast-container").remove();
-    }, 2000);
+      showToast("Membuka link...");
+    }
   });
-});
-
-/**
- * Untuk ganti icon sosmed saat hover
- */
-
-document.querySelectorAll(".sosmed i").forEach((sosmed) => {
-  sosmed.addEventListener("mouseenter", () => {
-    sosmed.classList.remove("ph");
-    sosmed.classList.add("ph-fill");
-  });
-
-  sosmed.addEventListener("mouseleave", () => {
-    sosmed.classList.remove("ph-fill");
-    sosmed.classList.add("ph");
-  });
-});
-
-/**
- * Animasi Text bergerak saat scroll
- */
-
-document.addEventListener("scroll", (e) => {
-  document.querySelector(".bg-text-animation").style.transform = `translateX(${
-    window.scrollY / 5
-  }px)`;
 });
