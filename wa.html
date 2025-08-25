@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kirim Pesan ke Customer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      width: 100%;
+      max-width: 500px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #38bdf8;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
+    textarea {
+      resize: none;
+      height: 120px;
+    }
+    button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 12px;
+      background: #38bdf8;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      color: #0f172a;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #0ea5e9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Kirim Pesan WhatsApp</h2>
+    <form id="waForm">
+      <!-- Target Number -->
+      <label for="targetNumber">Nomor WhatsApp Customer:</label>
+      <input type="tel" id="targetNumber" placeholder="Contoh: 628xxx atau 08xxx" required inputmode="numeric" pattern="[0-9]*">
+
+      <!-- Form Data Customer -->
+      <label for="nama">Nama:</label>
+      <input type="text" id="nama" placeholder="Masukkan Nama Customer">
+
+      <label for="idPelanggan">ID Pelanggan:</label>
+      <input type="tel" id="idPelanggan" placeholder="Masukkan ID Pelanggan" inputmode="numeric" pattern="[0-9]*">
+
+      <label for="sandi">Sandi Aplikasi:</label>
+      <input type="text" id="sandi" placeholder="Masukkan Sandi Aplikasi">
+
+      <!-- Pesan Tambahan -->
+      <label for="pesanTambahan">Pesan Tambahan (opsional):</label>
+      <textarea id="pesanTambahan" placeholder="Tambahkan catatan khusus di sini..."></textarea>
+
+      <button type="submit">Kirim WhatsApp</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("waForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      let phone = document.getElementById("targetNumber").value.trim();
+      let nama = document.getElementById("nama").value.trim();
+      let idPelanggan = document.getElementById("idPelanggan").value.trim();
+      let sandi = document.getElementById("sandi").value.trim();
+      let pesanTambahan = document.getElementById("pesanTambahan").value.trim();
+
+      // Validasi hanya angka
+      if (!/^[0-9]+$/.test(phone)) {
+        alert("Nomor WhatsApp hanya boleh berisi angka!");
+        return;
+      }
+
+      // Konversi nomor jika masih pakai 08 jadi 628
+      if (phone.startsWith("08")) {
+        phone = "62" + phone.substring(1);
+      }
+
+      // Validasi panjang nomor
+      if (phone.length < 10) {
+        alert("Nomor WhatsApp minimal 10 digit!");
+        return;
+      }
+
+      // Template pesan
+      let message = 
+`Yth. Bapak/Ibu ${nama},
+
+Untuk memudahkan Anda dalam melakukan pembayaran, penggantian sandi, dan komplain WiFi Ion Network, kami sediakan panduan lengkap berikut:
+
+📖 Akses Panduan:
+https://ionnetworksubang.github.io/Ion-network
+
+🔑 Informasi Akun Anda:
+- NAMA: ${nama}
+- ID PELANGGAN: ${idPelanggan}
+- SANDI APK: ${sandi}
+- LINK APK: https://play.google.com/store/apps/details?id=com.ionboardband.memberionapps
+
+⚠️ Mohon jangan sebarkan informasi akun Anda kepada orang lain.
+
+${pesanTambahan !== "" ? "\nCatatan: " + pesanTambahan : ""}
+
+Hormat kami,
+Tim Ion Network`;
+
+      // Encode untuk WhatsApp
+      let waLink = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+      window.open(waLink, "_blank");
+    });
+  </script>
+</body>
+</html>
