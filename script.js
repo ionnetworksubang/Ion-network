@@ -1,26 +1,15 @@
-// Toast notification
+// Toast Notification
 function showToast(message) {
   const toast = document.getElementById("toast");
-  toast.textContent = message;
-  toast.classList.add("show");
-
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 2500);
+  toast.innerText = message;
+  toast.className = "show";
+  setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
 }
 
-// Copy link action
-document.querySelectorAll(".link-card").forEach(link => {
-  link.addEventListener("click", (e) => {
-    const action = link.querySelector(".link-action i");
-    if (action) {
-      // animasi klik
-      action.style.color = "#fff";
-      setTimeout(() => {
-        action.style.color = "#94a3b8";
-      }, 500);
-
-      showToast("Membuka link...");
-    }
+// Prevent default "#" link
+document.querySelectorAll("a[href='#']").forEach(link => {
+  link.addEventListener("click", function(e) {
+    e.preventDefault();
+    showToast("⚠️ Fitur ini masih dalam pengembangan!");
   });
 });
